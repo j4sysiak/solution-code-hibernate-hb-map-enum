@@ -1,9 +1,9 @@
 package pl.jaceksysiak.hibernate.demo.entity;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,33 +27,25 @@ public class Student {
 	@Column(name="email")
 	private String email;
 	
-	// The Address is @Embeddable, no annotation needed here...
-	private Address homeAddress;
+	@Enumerated(EnumType.STRING)
+	@Column(name="status")
+	private Status status;
 	
-	//Overriding Embedded attributes
-	@AttributeOverrides({
-		@AttributeOverride(name="street", column=@Column(name="BILLING_STREET")),
-		@AttributeOverride(name="zipcode", column=@Column(name="BILLING_ZIPCODE")),
-		@AttributeOverride(name="city", column=@Column(name="BILLING_CITY")),
-	})
-	private Address billingAddress;
 	
-	public Address getHomeAddress() {
-		return homeAddress;
-	}
 
-	public void setHomeAddress(Address homeAddress) {
-		this.homeAddress = homeAddress;
-	}
-
-	public Student() {
-		
-	}
-
-	public Student(String firstName, String lastName, String email) {
+	public Student(String firstName, String lastName, String email, Status status) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.status = status;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public int getId() {
@@ -88,20 +80,13 @@ public class Student {
 		this.email = email;
 	}
 
-	public Address getBillingAddress() {
-		return billingAddress;
-	}
-
-	public void setBillingAddress(Address billingAddress) {
-		this.billingAddress = billingAddress;
-	}
-	
-	
 	@Override
 	public String toString() {
-		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
+		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", status=" + status + "]";
 	}
-
+	
+	
 }
 
 
